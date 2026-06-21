@@ -1,3 +1,4 @@
+import Link from "next/link";
 export default function Home() {
   return (
     <main className="min-h-screen bg-black text-white flex items-center justify-center px-6">
@@ -15,9 +16,12 @@ export default function Home() {
           to send in minutes.
         </p>
 
-        <button className="rounded-full bg-white px-8 py-4 text-black font-semibold hover:bg-gray-200">
-          Optimize my CV
-        </button>
+        <Link
+  href="/optimize"
+  className="inline-block rounded-full bg-white px-8 py-4 text-black font-semibold hover:bg-gray-200"
+>
+  Optimize my CV
+</Link>
       </section>
     </main>
   );
