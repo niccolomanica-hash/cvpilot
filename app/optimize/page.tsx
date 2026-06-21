@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { useState } from "react";
 import jsPDF from "jspdf";
+import { supabase } from "@/lib/supabase";
 
 export default function OptimizePage() {
   const [cvText, setCvText] = useState("");
@@ -53,6 +54,22 @@ export default function OptimizePage() {
 
       const data = await response.json();
       setResult(data.result || data.error);
+      const { data: userData } = await supabase.auth.getUser();
+
+console.log("USER:", userData);
+
+if (userData.user && data.result) {
+  const insertResult = await supabase
+    .from("analyses")
+    .insert({
+      user_email: userData.user.email,
+      score: extractScore(data.result),
+      job_title: jobDescription.slice(0, 60) + "...",
+      result: data.result,
+    });
+
+  console.log("INSERT:", insertResult);
+}
     } catch {
       setResult("Error while analyzing.");
     }

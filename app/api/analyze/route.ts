@@ -56,7 +56,16 @@ Return EXACTLY this format.
 The first line must always be:
 CV Score: NUMBER/100
 
+The score must be numeric digits only.
+Example:
+CV Score: 65/100
+
+Never write the score in words.
+Never write "sixty", "seventy-five", etc.
+
 Do not write anything before the CV Score line.
+The first line must always be:
+CV Score: NUMBER/100
 
 Then continue with:
 
