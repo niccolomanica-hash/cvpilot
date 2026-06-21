@@ -51,8 +51,15 @@ ${cvText}
 Yacht job offer:
 ${jobDescription}
 
-Return:
-CV Score: __/100
+Return EXACTLY this format.
+
+The first line must always be:
+CV Score: NUMBER/100
+
+Do not write anything before the CV Score line.
+
+Then continue with:
+
 
 Strengths:
 -
