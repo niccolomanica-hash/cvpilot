@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { useState } from "react";
 import jsPDF from "jspdf";
 
@@ -19,7 +20,7 @@ export default function OptimizePage() {
 
   const scoreLabel =
     score === null
-      ? ""
+      ? "No analysis yet"
       : score < 50
       ? "Poor Match"
       : score < 70
@@ -30,14 +31,14 @@ export default function OptimizePage() {
 
   const scoreStyle =
     score === null
-      ? ""
+      ? "border-white/10 text-gray-400"
       : score < 50
-      ? "border-red-500 text-red-400"
+      ? "border-red-500/60 text-red-400"
       : score < 70
-      ? "border-orange-500 text-orange-400"
+      ? "border-orange-500/60 text-orange-400"
       : score < 85
-      ? "border-yellow-500 text-yellow-400"
-      : "border-green-500 text-green-400";
+      ? "border-yellow-500/60 text-yellow-400"
+      : "border-green-500/60 text-green-400";
 
   const runAI = async (mode: "analyze" | "optimize") => {
     setLoading(mode);
@@ -75,88 +76,139 @@ export default function OptimizePage() {
   };
 
   return (
-    <main className="min-h-screen bg-black text-white px-6 py-12">
-      <section className="mx-auto max-w-4xl">
-        <p className="mb-4 text-sm uppercase tracking-[0.3em] text-blue-400">
-          CVPilot AI
-        </p>
+    <main className="min-h-screen bg-black text-white">
+      <div className="mx-auto max-w-7xl px-6 py-8">
+        <nav className="mb-10 flex items-center justify-between">
+          <Link href="/" className="text-lg font-bold tracking-tight">
+            CVPilot<span className="text-blue-400"> AI</span>
+          </Link>
 
-        <h1 className="mb-6 text-4xl font-bold">
-          Yacht CV Scoring Engine
-        </h1>
+          <Link
+            href="/"
+            className="rounded-full border border-white/10 px-4 py-2 text-sm text-gray-300 hover:bg-white/10"
+          >
+            Back home
+          </Link>
+        </nav>
 
-        <p className="mb-10 text-gray-300">
-          Paste your CV and a yacht job offer. CVPilot will score the match and
-          generate an optimized version.
-        </p>
-
-        <div className="space-y-6 rounded-2xl border border-white/10 bg-white/5 p-6">
-          <div>
-            <label className="mb-2 block font-medium">Paste your CV</label>
-            <textarea
-              rows={10}
-              value={cvText}
-              onChange={(e) => setCvText(e.target.value)}
-              placeholder="Paste your current CV here..."
-              className="w-full rounded-lg border border-white/10 bg-black p-3 text-white"
-            />
+        <section className="mb-10">
+          <div className="mb-4 inline-flex rounded-full border border-blue-500/30 bg-blue-500/10 px-4 py-2 text-sm text-blue-400">
+            Yacht CV Intelligence
           </div>
 
-          <div>
-            <label className="mb-2 block font-medium">Paste job offer</label>
-            <textarea
-              rows={8}
-              value={jobDescription}
-              onChange={(e) => setJobDescription(e.target.value)}
-              placeholder="Paste the yacht job description here..."
-              className="w-full rounded-lg border border-white/10 bg-black p-3 text-white"
-            />
-          </div>
+          <h1 className="max-w-3xl text-4xl font-bold md:text-6xl">
+            Land More Yacht Interviews
+          </h1>
 
-          <div className="grid gap-4 md:grid-cols-2">
-            <button
-              onClick={() => runAI("analyze")}
-              disabled={!!loading || !cvText || !jobDescription}
-              className="rounded-full bg-white px-8 py-4 font-semibold text-black hover:bg-gray-200 disabled:cursor-not-allowed disabled:opacity-50"
-            >
-              {loading === "analyze" ? "Analyzing..." : "Analyze CV"}
-            </button>
+          <p className="mt-5 max-w-2xl text-lg text-gray-400">
+            Analyze your CV, identify missing keywords, and generate a stronger application in seconds.
+          </p>
+        </section>
 
-            <button
-              onClick={() => runAI("optimize")}
-              disabled={!!loading || !cvText || !jobDescription}
-              className="rounded-full bg-blue-500 px-8 py-4 font-semibold text-white hover:bg-blue-600 disabled:cursor-not-allowed disabled:opacity-50"
-            >
-              {loading === "optimize"
-                ? "Generating..."
-                : "Generate Optimized CV"}
-            </button>
-          </div>
+        <section className="grid gap-6 lg:grid-cols-[1.1fr_0.9fr]">
+          <div className="space-y-6 rounded-3xl border border-white/10 bg-white/[0.04] p-6 shadow-2xl">
+            <div>
+              <div className="mb-3 flex items-center justify-between">
+                <label className="font-semibold">Your CV</label>
+                <span className="text-xs text-gray-500">
+                  {cvText.length} characters
+                </span>
+              </div>
 
-          {score !== null && (
-            <div className={`rounded-2xl border p-6 text-center ${scoreStyle}`}>
-              <p className="text-sm uppercase tracking-[0.3em]">Match Score</p>
-              <p className="mt-2 text-6xl font-bold">{score}%</p>
-              <p className="mt-2 text-lg font-semibold">{scoreLabel}</p>
+              <textarea
+                rows={11}
+                value={cvText}
+                onChange={(e) => setCvText(e.target.value)}
+                placeholder="Paste your current yacht CV here..."
+                className="w-full resize-none rounded-2xl border border-white/10 bg-black/70 p-4 text-sm text-white outline-none transition placeholder:text-gray-600 focus:border-blue-500/60"
+              />
             </div>
-          )}
 
-          {result && (
-            <button
-              onClick={downloadPDF}
-              className="w-full rounded-full border border-white/20 px-8 py-3 font-semibold text-white hover:bg-white/10"
-            >
-              Download PDF
-            </button>
-          )}
+            <div>
+              <div className="mb-3 flex items-center justify-between">
+                <label className="font-semibold">Job Offer</label>
+                <span className="text-xs text-gray-500">
+                  {jobDescription.length} characters
+                </span>
+              </div>
 
-          {result && (
-            <div className="mt-6 rounded-xl border border-white/10 bg-black p-5 whitespace-pre-wrap text-gray-200">
-              {cleanResult}
+              <textarea
+                rows={9}
+                value={jobDescription}
+                onChange={(e) => setJobDescription(e.target.value)}
+                placeholder="Paste the yacht job description here..."
+                className="w-full resize-none rounded-2xl border border-white/10 bg-black/70 p-4 text-sm text-white outline-none transition placeholder:text-gray-600 focus:border-blue-500/60"
+              />
             </div>
-          )}
-        </div>
-      </section>
+
+            <div className="grid gap-4 md:grid-cols-2">
+              <button
+                onClick={() => runAI("analyze")}
+                disabled={!!loading || !cvText || !jobDescription}
+                className="rounded-full bg-white px-8 py-4 font-semibold text-black transition hover:bg-gray-200 disabled:cursor-not-allowed disabled:opacity-50"
+              >
+                {loading === "analyze" ? "Analyzing..." : "Analyze CV"}
+              </button>
+
+              <button
+                onClick={() => runAI("optimize")}
+                disabled={!!loading || !cvText || !jobDescription}
+                className="rounded-full bg-blue-500 px-8 py-4 font-semibold text-white transition hover:bg-blue-600 disabled:cursor-not-allowed disabled:opacity-50"
+              >
+                {loading === "optimize"
+                  ? "Generating..."
+                  : "Generate Optimized CV"}
+              </button>
+            </div>
+          </div>
+
+          <div className="space-y-6">
+            {score !== null && (
+  <div className={`rounded-3xl border bg-white/[0.04] p-8 text-center ${scoreStyle}`}>
+    <p className="text-sm uppercase tracking-[0.3em]">
+      Match Score
+    </p>
+
+    <p className="mt-4 text-8xl font-bold">
+      {score}%
+    </p>
+
+    <p className="mt-3 text-lg font-semibold">
+      {scoreLabel}
+    </p>
+
+    <p className="mt-5 text-sm text-gray-500">
+      This score shows how closely your CV matches the selected yacht position.
+    </p>
+  </div>
+)}
+
+            {result && (
+              <button
+                onClick={downloadPDF}
+                className="w-full rounded-full border border-white/15 px-8 py-4 font-semibold text-white transition hover:bg-white/10"
+              >
+                Download PDF
+              </button>
+            )}
+
+            <div className="rounded-3xl border border-white/10 bg-white/[0.04] p-6">
+              <div className="mb-4 flex items-center justify-between">
+                <h2 className="text-xl font-bold">AI Result</h2>
+                <span className="rounded-full bg-white/10 px-3 py-1 text-xs text-gray-400">
+                  Live analysis
+                </span>
+              </div>
+
+              <div className="max-h-[520px] overflow-y-auto rounded-2xl border border-white/10 bg-black/70 p-5 text-sm leading-7 text-gray-300 whitespace-pre-wrap">
+                {result
+                  ? cleanResult
+                  : "Your analysis will appear here after you click Analyze CV or Generate Optimized CV."}
+              </div>
+            </div>
+          </div>
+        </section>
+      </div>
     </main>
   );
 }
